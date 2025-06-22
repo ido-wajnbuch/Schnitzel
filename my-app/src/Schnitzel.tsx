@@ -4,32 +4,31 @@ const Schnitzel: React.FC = () =>
 {
     const [seconds, setSeconds] = React.useState(0);
     const [isRunning, setIsRunning] = React.useState(false);
-    
+
     useEffect(() => {
         if (isRunning) {
-            const timer = setInterval(() => {setSeconds(prev => prev + 1);}, 1000);
+            const timer = setInterval(() => {setSeconds(prev => Math.max(0, prev - 1));}, 1000);
             return () => clearInterval(timer);
         }
     }, [isRunning]);
 
     function OnButtonClicked() 
     {
-        if(seconds == 0 || seconds % 6 == 0)
+        if(seconds == 0)
         {
             alert("I GOT SCHNITZEL");
             setIsRunning(true);
+            setSeconds(6);
         }
         else
         {
-            const secondsLeft = 6 - (seconds % 6);
-            alert(`NEED TO WAIT 6 SECONDS BETWEEN SCHNITZELS. ${secondsLeft} SECONDS LEFT`);
+            alert(`NEED TO WAIT 6 SECONDS BETWEEN SCHNITZELS. ${seconds} SECONDS LEFT`);
         }
     }
 
     return (
         <div>
             <button onClick={() => OnButtonClicked()}>I want schnitzel</button>
-            {seconds}
         </div>
     );
 }
